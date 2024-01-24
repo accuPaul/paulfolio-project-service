@@ -1,6 +1,6 @@
-package com.paulmount.paulfolioprojectservice.controller;
+package com.paulmount.paulfolioprojectservice.web.controller;
 
-import com.paulmount.paulfolioprojectservice.model.ProjectDto;
+import com.paulmount.paulfolioprojectservice.web.model.ProjectDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

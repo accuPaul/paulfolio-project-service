@@ -1,4 +1,4 @@
-package com.paulmount.paulfolioprojectservice.model;
+package com.paulmount.paulfolioprojectservice.web.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
