@@ -22,6 +22,7 @@ class ProjectControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    private final ProjectDto validProject = ProjectDto.builder().projectName("Test Name").description("Test Description").build();
 
     @Test
     void getProjectById() throws Exception {
@@ -31,7 +32,7 @@ class ProjectControllerTest {
 
     @Test
     void saveNewProject() throws Exception {
-        ProjectDto projectDto = ProjectDto.builder().id(UUID.randomUUID()).build();
+        ProjectDto projectDto = validProject;
         String projectJson = objectMapper.writeValueAsString(projectDto);
 
         mockMvc.perform(post("/api/v1/project")
@@ -42,7 +43,7 @@ class ProjectControllerTest {
 
     @Test
     void updateProjectById() throws Exception {
-        ProjectDto projectDto = ProjectDto.builder().build();
+        ProjectDto projectDto = validProject;
         String projectJson = objectMapper.writeValueAsString(projectDto);
 
         mockMvc.perform(put("/api/v1/project/"+UUID.randomUUID() )
