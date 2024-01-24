@@ -1,9 +1,6 @@
 package com.paulmount.paulfolioprojectservice.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -11,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.Version;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -45,5 +43,8 @@ public class Project {
     private String description;
     private String projectUrl;
     private String projectSource;
+
+    @ElementCollection(targetClass = String.class)
+    private List<String> tags;
 
 }
