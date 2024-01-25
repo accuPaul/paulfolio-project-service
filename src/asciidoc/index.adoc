@@ -1,0 +1,89 @@
+= PaulFolio Project Service Docs
+Paul Mount;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+
+Simple service using Spring REST Docs with JUnit 5.
+
+`ProjectControllerTest` makes a call to a very simple service and produces three
+documentation snippets.
+
+One showing how to make a request using cURL:
+
+##Get Project: ##
+
+include::{snippets}/project-get/curl-request.adoc[]
+
+One showing the HTTP request:
+
+include::{snippets}/project-get/http-request.adoc[]
+
+And one showing the HTTP response:
+
+include::{snippets}/project-get/http-response.adoc[]
+
+Response Body:
+include::{snippets}/project-get/response-body.adoc[]
+
+
+Response Fields:
+include::{snippets}/project-get/response-fields.adoc[]
+
+
+##New Project: ##
+
+include::{snippets}/project-new/curl-request.adoc[]
+
+One showing the HTTP request:
+
+include::{snippets}/project-new/http-request.adoc[]
+
+And one showing the HTTP response:
+
+include::{snippets}/project-new/http-response.adoc[]
+
+Response Body:
+include::{snippets}/project-new/response-body.adoc[]
+
+
+Response Fields:
+include::{snippets}/project-new/response-fields.adoc[]
+
+##Update Project: ##
+
+include::{snippets}/project-update/curl-request.adoc[]
+
+One showing the HTTP request:
+
+include::{snippets}/project-update/http-request.adoc[]
+
+And one showing the HTTP response:
+
+include::{snippets}/project-update/http-response.adoc[]
+
+Response Body:
+include::{snippets}/project-update/response-body.adoc[]
+
+
+Response Fields:
+include::{snippets}/project-update/response-fields.adoc[]
+
+##Delete Project: ##
+
+include::{snippets}/project-delete/curl-request.adoc[]
+
+One showing the HTTP request:
+
+include::{snippets}/project-delete/http-request.adoc[]
+
+And one showing the HTTP response:
+
+include::{snippets}/project-delete/http-response.adoc[]
+
+Response Body:
+include::{snippets}/project-delete/response-body.adoc[]
+
+
+Response Fields:
+include::{snippets}/project-delete/response-fields.adoc[]
