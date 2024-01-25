@@ -1,12 +1,14 @@
 package com.paulmount.paulfolioprojectservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.paulmount.paulfolioprojectservice.services.ProjectService;
 import com.paulmount.paulfolioprojectservice.web.model.ProjectDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
@@ -17,6 +19,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -37,10 +41,15 @@ class ProjectControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @MockBean
+    ProjectService projectService;
+
     private final ProjectDto validProject = ProjectDto.builder().projectName("Test Name").description("Test Description").build();
 
     @Test
     void getProjectById() throws Exception {
+        given(projectService.getProjectById(any())).willReturn(validProject);
+
         ConstrainedFields fields = new ConstrainedFields(ProjectDto.class);
 
         mockMvc.perform(get("/api/v1/project/{projectId}",UUID.randomUUID().toString())
@@ -67,6 +76,7 @@ class ProjectControllerTest {
         ProjectDto projectDto = validProject;
         String projectJson = objectMapper.writeValueAsString(projectDto);
 
+        given(projectService.saveNewProject(any())).willReturn(validProject);
         ConstrainedFields fields = new ConstrainedFields(ProjectDto.class);
 
         mockMvc.perform(post("/api/v1/project")
@@ -100,6 +110,7 @@ class ProjectControllerTest {
 
     @Test
     void updateProjectById() throws Exception {
+        given(projectService.updateProject(any(), any())).willReturn(validProject);
         ProjectDto projectDto = validProject;
         String projectJson = objectMapper.writeValueAsString(projectDto);
 
@@ -137,6 +148,7 @@ class ProjectControllerTest {
 
     @Test
     void deleteProject() throws Exception {
+
         mockMvc.perform(delete("/api/v1/project/{projectId}",UUID.randomUUID()))
                 .andExpect(status().isNoContent())
                 .andDo(document("project-delete",pathParameters(
