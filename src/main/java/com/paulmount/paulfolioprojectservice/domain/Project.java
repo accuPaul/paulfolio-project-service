@@ -3,7 +3,6 @@ package com.paulmount.paulfolioprojectservice.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.Version;
 
@@ -24,8 +23,7 @@ import java.util.UUID;
 public class Project {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID id;
 
@@ -44,7 +42,7 @@ public class Project {
     private String projectUrl;
     private String projectSource;
 
-    @ElementCollection(targetClass = String.class)
+    @ElementCollection
     private List<String> tags;
 
 }

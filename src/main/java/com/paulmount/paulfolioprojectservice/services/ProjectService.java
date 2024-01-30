@@ -2,6 +2,8 @@ package com.paulmount.paulfolioprojectservice.services;
 /* Created by paulm on 1/25/2024*/
 
 import com.paulmount.paulfolioprojectservice.web.model.ProjectDto;
+import com.paulmount.paulfolioprojectservice.web.model.ProjectPagedList;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -15,4 +17,6 @@ public interface ProjectService {
     ProjectDto saveNewProject(ProjectDto projectDto);
 
     ProjectDto getProjectById(UUID projectId);
+
+    ProjectPagedList getProjectList(String projectName, String url, String tags, PageRequest of);
 }

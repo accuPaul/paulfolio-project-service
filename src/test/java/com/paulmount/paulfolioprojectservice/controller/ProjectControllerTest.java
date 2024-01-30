@@ -3,13 +3,16 @@ package com.paulmount.paulfolioprojectservice.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paulmount.paulfolioprojectservice.services.ProjectService;
 import com.paulmount.paulfolioprojectservice.web.model.ProjectDto;
+import com.paulmount.paulfolioprojectservice.web.model.ProjectPagedList;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
@@ -17,10 +20,13 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -44,8 +50,26 @@ class ProjectControllerTest {
     @MockBean
     ProjectService projectService;
 
+    @Mock
+    ProjectPagedList mockPagedList;
+
+    @Mock
+    PageRequest mockPageRequest;
+
     private final ProjectDto validProject = ProjectDto.builder().projectName("Test Name").description("Test Description").build();
 
+    @Test
+    void getProjectList() throws Exception {
+        ProjectPagedList projectPagedList = new ProjectPagedList(Collections.singletonList(validProject));
+        when(projectService.getProjectList(anyString(), anyString(), anyString(), any())).thenReturn(projectPagedList);
+
+        ConstrainedFields fields = new ConstrainedFields(ProjectDto.class);
+
+        mockMvc.perform(get("/api/v1/project")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("project-list"));
+    }
     @Test
     void getProjectById() throws Exception {
         given(projectService.getProjectById(any())).willReturn(validProject);
