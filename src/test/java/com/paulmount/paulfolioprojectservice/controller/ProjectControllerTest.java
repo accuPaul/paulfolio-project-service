@@ -6,13 +6,11 @@ import com.paulmount.paulfolioprojectservice.web.model.ProjectDto;
 import com.paulmount.paulfolioprojectservice.web.model.ProjectPagedList;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
@@ -49,12 +47,6 @@ class ProjectControllerTest {
 
     @MockBean
     ProjectService projectService;
-
-    @Mock
-    ProjectPagedList mockPagedList;
-
-    @Mock
-    PageRequest mockPageRequest;
 
     private final ProjectDto validProject = ProjectDto.builder().projectName("Test Name").description("Test Description").build();
 
