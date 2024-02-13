@@ -4,8 +4,10 @@ import com.paulmount.paulfolioprojectservice.domain.Project;
 import com.paulmount.paulfolioprojectservice.repositories.ProjectRepository;
 import com.paulmount.paulfolioprojectservice.web.controller.ItemNotFoundException;
 import com.paulmount.paulfolioprojectservice.web.mappers.ProjectMapper;
+import com.paulmount.paulfolioprojectservice.web.mappers.TagMapper;
 import com.paulmount.paulfolioprojectservice.web.model.ProjectDto;
 import com.paulmount.paulfolioprojectservice.web.model.ProjectPagedList;
+import com.paulmount.paulfolioprojectservice.web.model.TagDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +31,7 @@ import java.util.stream.Collectors;
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
+    private final TagMapper tagMapper;
 
     @Override
     public void deleteProject(UUID projectId) {
@@ -50,6 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectDto saveNewProject(ProjectDto projectDto) {
         Project project = projectMapper.projectDtoToProject(projectDto);
+        System.out.println("Saving new project named "+projectDto.getProjectName());
         return projectMapper.projectToProjectDto(projectRepository.save(project));
     }
 
@@ -71,7 +75,7 @@ public class ProjectServiceImpl implements ProjectService {
             projectPage = projectRepository.findAllByProjectUrlContainingIgnoreCase(url, pageRequest);
         } else if (StringUtils.hasText(tags)) {
             List<String> tagList = Arrays.asList(StringUtils.commaDelimitedListToStringArray(tags));
-            projectPage = projectRepository.findAllByTagsIn(tagList, pageRequest);
+            projectPage = projectRepository.findAllByTagsInIgnoreCase(tagList, pageRequest);
         } else {
             projectPage = projectRepository.findAll(pageRequest.withSort(Sort.Direction.DESC, "description"));
         }
@@ -86,5 +90,15 @@ public class ProjectServiceImpl implements ProjectService {
                 projectPage.getTotalElements());
 
         return projectPagedList;
+    }
+
+    @Override
+    public List<TagDto> getTagList() {
+        return projectRepository.getTagList().stream().map(tagMapper::projectionToTagDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public TagDto getTag(String tagName) {
+        return tagMapper.projectionToTagDto(projectRepository.getTagCount(tagName));
     }
 }

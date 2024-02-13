@@ -49,7 +49,7 @@ public class ProjectLoader implements CommandLineRunner {
                     .description("Last project to load")
                     .projectSource("https://www.github/accuPaul")
                     .projectUrl("https://www.bing.com")
-                    .tags(Arrays.asList("Hibernate","REST"))
+                    .tags(Arrays.asList("Hibernate,REST"))
                     .build();
 
            projectRepository.save(project);

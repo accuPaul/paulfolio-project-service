@@ -3,9 +3,11 @@ package com.paulmount.paulfolioprojectservice.services;
 
 import com.paulmount.paulfolioprojectservice.web.model.ProjectDto;
 import com.paulmount.paulfolioprojectservice.web.model.ProjectPagedList;
+import com.paulmount.paulfolioprojectservice.web.model.TagDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -19,4 +21,8 @@ public interface ProjectService {
     ProjectDto getProjectById(UUID projectId);
 
     ProjectPagedList getProjectList(String projectName, String url, String tags, PageRequest of);
+
+    List<TagDto> getTagList();
+
+    TagDto getTag(String tagName);
 }

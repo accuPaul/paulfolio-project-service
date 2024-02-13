@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.StringUtils;
 
@@ -31,12 +32,14 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(RestDocumentationExtension.class)
 @AutoConfigureRestDocs()
 @ComponentScan(basePackages = "com.paulmount.paulfolioproject.web.mappers.ProjectMapper")
 @WebMvcTest
+@WithMockUser
 class ProjectControllerTest {
 
     @Autowired
@@ -95,7 +98,7 @@ class ProjectControllerTest {
         given(projectService.saveNewProject(any())).willReturn(validProject);
         ConstrainedFields fields = new ConstrainedFields(ProjectDto.class);
 
-        mockMvc.perform(post("/api/v1/project")
+        mockMvc.perform(post("/api/v1/project").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(projectJson))
                 .andExpect(status().isCreated())
@@ -132,7 +135,7 @@ class ProjectControllerTest {
 
         ConstrainedFields fields = new ConstrainedFields(ProjectDto.class);
 
-        mockMvc.perform(put("/api/v1/project/{projectId}",UUID.randomUUID() )
+        mockMvc.perform(put("/api/v1/project/{projectId}",UUID.randomUUID() ).with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(projectJson))
                 .andExpect(status().isOk())
@@ -165,7 +168,7 @@ class ProjectControllerTest {
     @Test
     void deleteProject() throws Exception {
 
-        mockMvc.perform(delete("/api/v1/project/{projectId}",UUID.randomUUID()))
+        mockMvc.perform(delete("/api/v1/project/{projectId}",UUID.randomUUID()).with(csrf()))
                 .andExpect(status().isNoContent())
                 .andDo(document("project-delete",pathParameters(
                         parameterWithName("projectId").description("UUID of desired project")

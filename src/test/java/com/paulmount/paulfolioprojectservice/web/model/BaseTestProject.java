@@ -19,7 +19,7 @@ public class BaseTestProject {
                 .createdDate(OffsetDateTime.now())
                 .lastModifiedDate(OffsetDateTime.now())
                 .version(0)
-                .tags(Arrays.asList("TAG1", "TAG2","TAG3"))
+                .tags(Arrays.asList("TAG1","TAG2","TAG3"))
                 .build();
     }
 }
