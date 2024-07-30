@@ -6,6 +6,7 @@
         <groupId>com.paulmount</groupId>
         <artifactId>paulfolio-bom</artifactId>
         <version>1.0.1</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.paulmount</groupId>
     <artifactId>paulfolio-project-service</artifactId>
@@ -81,8 +82,9 @@
                 </dependencies>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
